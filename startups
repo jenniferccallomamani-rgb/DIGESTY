@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Digesty - Menús seguros para gastritis</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-50 text-slate-900">
+  <!-- CARRITO LATERAL -->
+  <aside id="cartPanel" class="fixed top-0 right-0 w-80 h-full bg-white shadow-2xl border-l border-slate-200 z-50 translate-x-full transition-transform">
+    <div class="flex items-center justify-between px-4 py-3 border-b">
+      <h2 class="font-semibold text-lg">Mi pedido Digesty</h2>
+      <button onclick="toggleCart()" class="text-slate-400 hover:text-slate-600 text-xl">&times;</button>
+    </div>
+    <div id="cartItems" class="p-4 space-y-3 h-[65%] overflow-y-auto text-sm">
+      <!-- items se agregan aquí -->
+      <p class="text-slate-400 text-sm" id="emptyCartText">Aún no agregas ningún plan.</p>
+    </div>
+    <div class="px-4 py-4 border-t space-y-2">
+      <div class="flex justify-between text-sm">
+        <span>Subtotal</span>
+        <span id="cartSubtotal">S/ 0.00</span>
+      </div>
+      <label class="flex flex-col text-xs text-slate-500">
+        Delivery (según zona)
+        <select id="deliverySelect" class="mt-1 border rounded px-2 py-1 text-sm" onchange="updateTotal()">
+          <option value="0">Recoger en local (S/ 0)</option>
+          <option value="6">Zona universidad (S/ 6)</option>
+          <option value="8">Zona centro Arequipa (S/ 8)</option>
+          <option value="10">Zona lejana (S/ 10)</option>
+        </select>
+      </label>
+      <div class="flex justify-between text-sm font-semibold">
+        <span>Total</span>
+        <span id="cartTotal">S/ 0.00</span>
+      </div>
+      <button onclick="sendWhatsapp()" class="w-full bg-blue-500 text-white py-2 rounded-lg text-sm font-medium hover:bg-blue-600 transition">
+        Terminar pedido en WhatsApp
+      </button>
+      <p class="text-[10px] text-slate-400">
+        *Digesty es informativo. En caso de síntomas fuertes de gastritis, acudir a un profesional.* 
+      </p>
+    </div>
+  </aside>
+
+  <!-- NAVBAR -->
+  <header class="bg-white/80 backdrop-blur border-b border-slate-200 sticky top-0 z-40">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <div class="w-9 h-9 rounded-full bg-blue-500 text-white flex items-center justify-center font-bold">D</div>
+        <span class="font-semibold tracking-tight">DIGESTY</span>
+      </div>
+      <nav class="hidden md:flex gap-6 text-sm">
+        <a href="#planes" class="hover:text-blue-500">Planes</a>
+        <a href="#mapa" class="hover:text-blue-500">Lugares</a>
+        <a href="#delivery" class="hover:text-blue-500">Delivery</a>
+      </nav>
+      <button onclick="toggleCart()" class="relative bg-blue-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-600 transition">
+        Carrito
+        <span id="cartBadge" class="absolute -top-2 -right-2 bg-red-500 text-[10px] rounded-full w-5 h-5 flex items-center justify-center hidden">0</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="max-w-6xl mx-auto px-4 py-14 grid md:grid-cols-2 gap-10 items-center">
+    <div>
+      <p class="text-xs uppercase tracking-[0.3em] text-blue-500 mb-3">planteamiento digital digesty</p>
+      <h1 class="text-3xl md:text-4xl font-bold mb-4">Comidas seguras para tu gastritis, en minutos.</h1>
+      <p class="text-slate-600 mb-6">
+        Según tu documento, Digesty nace porque más del 50% de estudiantes presenta problemas digestivos y necesita una guía rápida de qué pedir, dónde y cuánto cuesta. Aquí lo tienes en una sola página. :contentReference[oaicite:2]{index=2}
+      </p>
+      <div class="flex gap-3">
+        <a href="#planes" class="bg-blue-500 text-white px-5 py-3 rounded-lg text-sm font-medium hover:bg-blue-600 transition">
+          Ver planes alimenticios
+        </a>
+        <a href="#mapa" class="px-5 py-3 rounded-lg text-sm font-medium border border-slate-200 bg-white hover:border-slate-300 transition">
+          Ver lugares cercanos
+        </a>
+      </div>
+      <p class="text-xs text-slate-400 mt-4">
+        *En caso de dolor intenso o vómitos con sangre, acudir a un centro de salud.*
+      </p>
+    </div>
+    <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
+      <h2 class="font-semibold mb-3">¿Cómo funciona?</h2>
+      <ol class="text-sm text-slate-600 space-y-2">
+        <li>1. Elige un plan apto para gastritis.</li>
+        <li>2. Agrégalo al carrito.</li>
+        <li>3. Selecciona tu zona de delivery.</li>
+        <li>4. Termina por WhatsApp (como en tu fase 1). :contentReference[oaicite:3]{index=3}</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- PLANES -->
+  <section id="planes" class="max-w-6xl mx-auto px-4 py-10">
+    <h2 class="text-2xl font-semibold mb-2">Planes alimenticios Digesty (aptos para gastritis)</h2>
+    <p class="text-slate-600 mb-6 text-sm">
+      Pensados para ser blandos, bajos en irritantes y fáciles de digerir. Puedes combinar más de uno.
+    </p>
+    <div class="grid md:grid-cols-3 gap-6">
+      <!-- Plan 1 -->
+      <div class="bg-white rounded-xl border border-slate-100 shadow-sm p-5 flex flex-col">
+        <h3 class="font-semibold mb-1">Plan Diario Suave</h3>
+        <p class="text-slate-500 text-sm mb-3">Desayuno + almuerzo blando + infusión.</p>
+        <p class="text-2xl font-bold mb-4">S/ 15</p>
+        <ul class="text-xs text-slate-500 space-y-1 mb-4">
+          <li>• Avena cocida o pan blanco</li>
+          <li>• Pollo a la plancha o verduras cocidas</li>
+          <li>• Sin ají, sin frituras</li>
+        </ul>
+        <button onclick="addToCart('Plan Diario Suave', 15)" class="mt-auto bg-blue-500 text-white py-2 rounded-lg text-sm hover:bg-blue-600 transition">
+          Agregar al carrito
+        </button>
+      </div>
+      <!-- Plan 2 -->
+      <div class="bg-white rounded-xl border border-slate-100 shadow-sm p-5 flex flex-col">
+        <h3 class="font-semibold mb-1">Pack Universitario (3 comidas)</h3>
+        <p class="text-slate-500 text-sm mb-3">Para todo el día de clases.</p>
+        <p class="text-2xl font-bold mb-4">S/ 28</p>
+        <ul class="text-xs text-slate-500 space-y-1 mb-4">
+          <li>• Incluye snack no irritante</li>
+          <li>• Evita lácteos enteros</li>
+          <li>• Ideal para horario partido</li>
+        </ul>
+        <button onclick="addToCart('Pack Universitario', 28)" class="mt-auto bg-blue-500 text-white py-2 rounded-lg text-sm hover:bg-blue-600 transition">
+          Agregar al carrito
+        </button>
+      </div>
+      <!-- Plan 3 -->
+      <div class="bg-white rounded-xl border border-slate-100 shadow-sm p-5 flex flex-col">
+        <h3 class="font-semibold mb-1">Plan Semanal Digestivo</h3>
+        <p class="text-slate-500 text-sm mb-3">5 días con platos rotativos.</p>
+        <p class="text-2xl font-bold mb-4">S/ 110</p>
+        <ul class="text-xs text-slate-500 space-y-1 mb-4">
+          <li>• Menús sin condimentos fuertes</li>
+          <li>• Pensado para gastritis recurrente</li>
+          <li>• Puedes indicar intolerancias</li>
+        </ul>
+        <button onclick="addToCart('Plan Semanal Digestivo', 110)" class="mt-auto bg-blue-500 text-white py-2 rounded-lg text-sm hover:bg-blue-600 transition">
+          Agregar al carrito
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAPA / LUGARES DISPONIBLES -->
+  <section id="mapa" class="max-w-6xl mx-auto px-4 py-10">
+    <h2 class="text-2xl font-semibold mb-2">Lugares disponibles para pedir</h2>
+    <p class="text-slate-600 mb-4 text-sm">
+      Como dice tu documento, la app/web usará Google Maps para mostrar restaurantes saludables, tiendas naturistas o puntos de delivery cercanos. Aquí va el iframe de referencia. :contentReference[oaicite:4]{index=4}
+    </p>
+    <div class="rounded-xl overflow-hidden border border-slate-200">
+      <!-- puedes cambiar el src por el mapa de tu zona -->
+      <iframe
+        src="https://www.google.com/maps/
